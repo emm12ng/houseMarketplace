@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
-import {toast, Toast} from 'react-toastify'
+import {toast} from 'react-toastify'
 import OAuth from '../components/OAuth'
 
 function SignIn() {

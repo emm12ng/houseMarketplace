@@ -9,7 +9,6 @@ import {
 import {db} from '../firebase.config'
 import {useNavigate} from 'react-router-dom'
 import Spinner from '../components/Spinner'
-import { findAllByDisplayValue } from '@testing-library/react'
 import {toast} from 'react-toastify'
 import {v4 as uuidv4} from 'uuid'
 import {addDoc, collection, serverTimestamp} from 'firebase/firestore'
@@ -70,7 +69,7 @@ function CreateListing() {
         return () => {
             isMounted.current = false
         }
-    }, [isMounted])
+    }, [isMounted, auth, formData, loading, navigate])
 
     const onSubmit = async(e) => {
         e.preventDefault()
@@ -92,27 +91,29 @@ function CreateListing() {
         let location 
 
         if (geolocationEnabled) {
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`)
+            const response = await fetch(
+              `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+            )
+      
             const data = await response.json()
+      
             geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
             geolocation.lng = data.results[0]?.geometry.location.lng ?? 0
-
-            location = data.status === 'ZERO_RESULTS' 
-                ? undefined 
-                : data.results[0]?.formatted_address
-
-            console.log(data)
-
-            if(location===undefined || location.includes('undefined')) {
+      
+            location =
+                data.status === 'ZERO_RESULTS'
+                    ? undefined
+                    : data.results[0]?.formatted_address
+        
+                if (location === undefined || location.includes('undefined')) {
                 setLoading(false)
                 toast.error('Please enter a correct address')
                 return
+                }
+            } else {
+                geolocation.lat = latitude
+                geolocation.lng = longitude
             }
-            
-        } else {
-            geolocation.lat = latitude
-            geolocation.lng = longitude
-        }
 
         const storeImage = async (image) => {
             return new Promise((resolve, reject) => {
