@@ -1,3 +1,6 @@
+# App Diagram
+![Housing market diagram](https://user-images.githubusercontent.com/89936824/175427982-0ad60c71-a6e4-4676-b0bf-e7fcd737e8df.jpeg)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
